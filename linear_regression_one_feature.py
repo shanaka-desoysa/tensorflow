@@ -5,6 +5,7 @@
 
 import numpy as np
 import tensorflow as tf
+import matplotlib.pyplot as plt
 
 # CUSTOMIZABLE: Collect/Prepare data
 datapoint_size = 1000
@@ -44,7 +45,10 @@ all_ys = []
 for i in range(datapoint_size):
     # Create fake data for y = W.x + b where W = 2, b = actual_b
     all_xs.append(i % 10)
-    all_ys.append(actual_W * (i % 10) + actual_b)
+    # Add noise
+    #noise = np.random.normal(scale=0.01, size=len(x_train))
+    noise = np.random.normal(scale=0.5)
+    all_ys.append(actual_W * (i % 10) + actual_b + noise)
 
 all_xs = np.transpose([all_xs])
 all_ys = np.transpose([all_ys])
@@ -82,9 +86,18 @@ for i in range(steps):
         print("y: %s" % sess.run(y, feed_dict=feed))
         print("y_: %s" % ys)
         print("cost: %f" % sess.run(cost, feed_dict=feed))
-    print("After %d iteration:" % i)
-    print("W: %f" % sess.run(W))
-    print("b: %f" % sess.run(b))
+        print("After %d iteration:" % i)
+        print("W: %f" % sess.run(W))
+        print("b: %f" % sess.run(b))
+
+w_value, b_value = sess.run([W, b])
 
 # NOTE: W should be close to actual_W, and b should be close to actual_b
 # NOTE: Run tensorboard --logdir=path/to/log-directory to visualize
+
+# plot the results
+X, Y = all_xs, all_ys
+plt.plot(X, Y, 'bo', label='Real data')
+plt.plot(X, X * w_value + b_value, 'r', label='Predicted data')
+plt.legend()
+plt.show()
