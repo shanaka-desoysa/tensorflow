@@ -91,3 +91,6 @@ ENV/
 # Log directory
 log/
 logs/
+
+# Data zip files
+*.gz
