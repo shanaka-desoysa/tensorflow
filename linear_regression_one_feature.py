@@ -14,7 +14,7 @@ steps = 10000
 actual_W = 2
 actual_b = 10
 learn_rate = 0.001
-log_file = "log/feature_1_batch_1"
+log_file = "logs/feature_1_batch_1"
 
 # Model linear regression y = Wx + b
 x = tf.placeholder(tf.float32, [None, 1], name="x")
@@ -89,7 +89,10 @@ for i in range(steps):
         print("After %d iteration:" % i)
         print("W: %f" % sess.run(W))
         print("b: %f" % sess.run(b))
-
+        
+# close the writer when you're done using it
+writer.flush()
+writer.close()
 w_value, b_value = sess.run([W, b])
 
 # NOTE: W should be close to actual_W, and b should be close to actual_b
