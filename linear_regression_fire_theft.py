@@ -40,8 +40,8 @@ cost_sum = tf.summary.scalar("cost", cost)
 
 # Step 6: using gradient descent with learning rate of 0.01 to minimize
 # loss
-optimizer = tf.train.GradientDescentOptimizer(
-    learning_rate=0.001).minimize(cost)
+optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.001).minimize(cost)
+
 with tf.Session() as sess:
     # Step 7: initialize the necessary variables, in this case, w and b
     sess.run(tf.global_variables_initializer())
