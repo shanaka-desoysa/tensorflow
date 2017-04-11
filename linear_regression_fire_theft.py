@@ -57,12 +57,12 @@ with tf.Session() as sess:
             # Session runs train_op and fetch values of loss
             _, c = sess.run([optimizer, cost], feed_dict={X: x, Y: y})
             total_cost += c
-            print('Epoch {0}: {1}'.format(i, total_cost / n_samples))
+        print('Epoch {0}: {1}'.format(i, total_cost / n_samples))
 
-            if i % 10 == 0:
-                all_feed = {X: data.T[0], Y: data.T[1]}
-                result = sess.run(merged, feed_dict=all_feed)
-                writer.add_summary(result, i)
+        if i % 10 == 0:
+            all_feed = {X: data.T[0], Y: data.T[1]}
+            result = sess.run(merged, feed_dict=all_feed)
+            writer.add_summary(result, i)
 
     # close the writer when you're done using it
     writer.flush()

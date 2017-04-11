@@ -23,14 +23,12 @@ import numpy as np
 import math
 
 #%matplotlib inline
-import pylab
-import pandas as pd
 import xlrd
 
 DATA_FILE = 'data/Reduced_Car_Data.xlsx'
 LOG_FILE = 'logs/Reduced_Car_Data'
-n_epochs = 100000
-learn_rate = 0.00000001
+NUM_OF_EPOCHS = 50000
+LEARN_RATE = 1.0e-7
 
 # Step 1: read in data from the .xls file
 book = xlrd.open_workbook(DATA_FILE, encoding_override="utf-8")
@@ -38,7 +36,7 @@ sheet = book.sheet_by_index(0)
 data = np.asarray([sheet.row_values(i) for i in range(1, sheet.nrows)])
 n_samples = sheet.nrows - 1
 
-# Print number of data points
+# Split training and test data
 print(n_samples)
 np.random.seed(1234)
 msk = np.random.rand(len(data)) < 0.75
@@ -76,18 +74,18 @@ with tf.name_scope("cost") as scope:
 # loss
 #optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.00000001).minimize(loss)
 with tf.name_scope("train") as scope:
-    train_step = tf.train.GradientDescentOptimizer(learn_rate).minimize(cost)
+    train_step = tf.train.GradientDescentOptimizer(LEARN_RATE).minimize(cost)
 
 # Calculate accuracy of the model using RMSE
 RMSE = tf.sqrt(tf.reduce_mean(tf.square(tf.subtract(Y, Y_predicted))))
 
 # Traing dataset
-all_Xs = train[:, 1:4]
-all_Ys = train[:, 4]
-all_Xs = np.array(all_Xs)
-all_Ys = np.transpose([all_Ys])
+train_X = train[:, 1:4]
+train_Y = train[:, 4]
+train_X = np.array(train_X)
+train_Y = np.transpose([train_Y])
 
-all_feed = {X: all_Xs, Y: all_Ys}
+all_feed = {X: train_X, Y: train_Y}
 
 sess = tf.Session()
 
@@ -98,20 +96,21 @@ writer = tf.summary.FileWriter(LOG_FILE, sess.graph)
 init = tf.global_variables_initializer()
 sess.run(init)
 
-for i in range(n_epochs):
+for i in range(NUM_OF_EPOCHS):
     # Record summary data, and the accuracy every 10 steps
-    if i % 10 == 0:
+    if i % 1000 == 0:
         result = sess.run(merged, feed_dict=all_feed)
         writer.add_summary(result, i)
     else:
         sess.run(train_step, feed_dict=all_feed)
 
-    if i % 1000 == 0:
-        print("After %d iteration:" % i)
+    #if i % 1000 == 0:
+        #print("After %d iteration:" % i)
         #print("W: %s" % sess.run(W))
         #print("b: %f" % sess.run(B))
-        print("cost: %f" % sess.run(cost, feed_dict=all_feed))
-        print("RMSE: %f" % sess.run(RMSE, feed_dict=all_feed))
+        #print("cost: %f" % sess.run(cost, feed_dict=all_feed))
+        #print("RMSE: %f" % sess.run(RMSE, feed_dict=all_feed))
+
 
 W_value, B_value = sess.run([W, B])
 
@@ -121,25 +120,36 @@ writer.flush()
 writer.close()
 
 # Get predictions for Test dataset
-all_Xs = test[:, 1:4]
-all_Ys = test[:, 4]
-all_Xs = np.array(all_Xs)
-all_Ys = np.transpose([all_Ys])
+test_X = test[:, 1:4]
+test_Y = test[:, 4]
+test_X = np.array(test_X)
+test_Y = np.transpose([test_Y])
 
-all_feed = {X: all_Xs, Y: all_Ys}
+all_feed = {X: test_X, Y: test_Y}
 
-Y_hat = sess.run(Y_predicted, feed_dict=all_feed)
+pred_Y = sess.run(Y_predicted, feed_dict=all_feed)
 RMSE_Test = sess.run(RMSE, feed_dict=all_feed)
 
 # Close the session
 sess.close()
 
-square = np.square(all_Ys - Y_hat)
+square = np.square(test_Y - pred_Y)
 #print("Sum of square errors: {0}".format(np.sum(square)))
 #print("Root sum of square errors: {0}".format(math.sqrt(np.sum(square))))
 print("Accuracy of the model, RMSE: {0}".format(RMSE_Test))
 
-plt.plot(range(1, len(test) + 1), all_Ys, 'bo', label='Real data')
-plt.plot(range(1, len(test) + 1), Y_hat, 'r', label='Predicted data')
+'''
+plt.plot(range(1, len(test) + 1), test_Y, 'bo', label='Real data')
+plt.plot(range(1, len(test) + 1), pred_Y, 'ro', label='Predicted data')
 plt.legend()
+plt.show()
+'''
+
+
+fig, ax = plt.subplots()
+ax.scatter(test_Y, pred_Y)
+ax.plot([test_Y.min(), test_Y.max()], [
+        test_Y.min(), test_Y.max()], 'k--', lw=3)
+ax.set_xlabel('Measured')
+ax.set_ylabel('Predicted')
 plt.show()
