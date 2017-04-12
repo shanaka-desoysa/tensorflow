@@ -1,3 +1,10 @@
+"""
+Simple linear regression example in TensorFlow
+This program tries to predict the number of thefts from 
+the number of fire in the city of Chicago
+
+Model 3 - Fire theft model with x^2
+"""
 
 # pylint: disable=invalid-name
 
@@ -9,7 +16,7 @@ import xlrd
 DATA_FILE = 'data/fire_theft.xls'
 LOG_FILE = 'logs/fire_theft'
 learn_rate = 0.001
-num_epoch = 100
+num_epoch = 10
 
 # Step 1: read in data from the .xls file
 book = xlrd.open_workbook(DATA_FILE, encoding_override="utf-8")
@@ -23,16 +30,18 @@ X = tf.placeholder(tf.float32, name='X')
 Y = tf.placeholder(tf.float32, name='Y')
 
 # Step 3: create weight and bias, initialized to 0
-w = tf.Variable(0.0, name='weights')
+w1 = tf.Variable(0.0, name='weights_1')
+w2 = tf.Variable(0.0, name='weights_2')
 b = tf.Variable(0.0, name='bias')
 
 # Step 4: build model to predict Y
-Y_predicted = X * w + b
+Y_predicted = X * X * w2 + X * w1 + b
 
 # Add summary ops to collect data
-W_hist = tf.summary.histogram("weights", w)
+'''W1_hist = tf.summary.histogram("weights_1", w1)
+W2_hist = tf.summary.histogram("weights_2", w2)
 b_hist = tf.summary.histogram("biases", b)
-y_hist = tf.summary.histogram("y", Y_predicted)
+y_hist = tf.summary.histogram("y", Y_predicted)'''
 
 # Step 5: use the square error as the loss function
 #loss = tf.square(Y - Y_predicted, name='loss')
@@ -42,8 +51,7 @@ cost_sum = tf.summary.scalar("cost", cost)
 
 # Step 6: using gradient descent with learning rate of 0.01 to minimize
 # loss
-optimizer = tf.train.GradientDescentOptimizer(
-    learning_rate=learn_rate).minimize(cost)
+optimizer = tf.train.GradientDescentOptimizer(learn_rate).minimize(cost)
 with tf.Session() as sess:
     # Step 7: initialize the necessary variables, in this case, w and b
     sess.run(tf.global_variables_initializer())
@@ -58,8 +66,8 @@ with tf.Session() as sess:
         for x, y in data:
             # Session runs train_op and fetch values of loss
             _, c = sess.run([optimizer, cost], feed_dict={X: x, Y: y})
-            total_cost += c
-            print('Epoch {0}: {1}'.format(i, total_cost / n_samples))
+            #total_cost += c
+            #print('Epoch {0}: {1}'.format(i, total_cost / n_samples))
 
             if i % 10 == 0:
                 all_feed = {X: data.T[0], Y: data.T[1]}
@@ -71,13 +79,13 @@ with tf.Session() as sess:
     writer.close()
 
     # Step 9: output the values of w and b
-    w_value, b_value = sess.run([w, b])
+    w1_value, w2_value, b_value = sess.run([w1, w2, b])
 
 sess.close()
 
 # plot the results
 X, Y = data.T[0], data.T[1]
 plt.plot(X, Y, 'bo', label='Real data')
-plt.plot(X, X * w_value + b_value, 'r', label='Predicted data')
+plt.plot(X, X * X * w2_value + X * w1_value + b_value, 'r', label='Predicted data')
 plt.legend()
 plt.show()

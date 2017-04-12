@@ -1,3 +1,10 @@
+"""
+Simple linear regression example in TensorFlow
+This program tries to predict the number of thefts from 
+the number of fire in the city of Chicago
+
+Model 3 - Fire theft model with x^3
+"""
 
 # pylint: disable=invalid-name
 
@@ -8,8 +15,6 @@ import xlrd
 
 DATA_FILE = 'data/fire_theft.xls'
 LOG_FILE = 'logs/fire_theft'
-learn_rate = 0.001
-num_epoch = 100
 
 # Step 1: read in data from the .xls file
 book = xlrd.open_workbook(DATA_FILE, encoding_override="utf-8")
@@ -43,7 +48,7 @@ cost_sum = tf.summary.scalar("cost", cost)
 # Step 6: using gradient descent with learning rate of 0.01 to minimize
 # loss
 optimizer = tf.train.GradientDescentOptimizer(
-    learning_rate=learn_rate).minimize(cost)
+    learning_rate=0.001).minimize(cost)
 with tf.Session() as sess:
     # Step 7: initialize the necessary variables, in this case, w and b
     sess.run(tf.global_variables_initializer())
@@ -53,7 +58,7 @@ with tf.Session() as sess:
     writer = tf.summary.FileWriter(LOG_FILE, sess.graph)
 
     # Step 8: train the model
-    for i in range(num_epoch):  # train the model 100 times
+    for i in range(100):  # train the model 100 times
         total_cost = 0
         for x, y in data:
             # Session runs train_op and fetch values of loss
