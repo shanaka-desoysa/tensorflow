@@ -40,8 +40,8 @@ cost_sum = tf.summary.scalar("cost", cost)
 
 # Step 6: using gradient descent with learning rate of 0.01 to minimize
 # loss
-optimizer = tf.train.GradientDescentOptimizer(
-    learning_rate=0.001).minimize(cost)
+optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.001).minimize(cost)
+
 with tf.Session() as sess:
     # Step 7: initialize the necessary variables, in this case, w and b
     sess.run(tf.global_variables_initializer())
@@ -57,12 +57,12 @@ with tf.Session() as sess:
             # Session runs train_op and fetch values of loss
             _, c = sess.run([optimizer, cost], feed_dict={X: x, Y: y})
             total_cost += c
-            print('Epoch {0}: {1}'.format(i, total_cost / n_samples))
+        print('Epoch {0}: {1}'.format(i, total_cost / n_samples))
 
-            if i % 10 == 0:
-                all_feed = {X: data.T[0], Y: data.T[1]}
-                result = sess.run(merged, feed_dict=all_feed)
-                writer.add_summary(result, i)
+        if i % 10 == 0:
+            all_feed = {X: data.T[0], Y: data.T[1]}
+            result = sess.run(merged, feed_dict=all_feed)
+            writer.add_summary(result, i)
 
     # close the writer when you're done using it
     writer.flush()

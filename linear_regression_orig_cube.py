@@ -11,7 +11,7 @@ import xlrd
 
 DATA_FILE = 'data/fire_theft.xls'
 LOG_FILE = 'logs/fire_theft'
-LEARNING_RATE = 0.000000001
+LEARNING_RATE = 1.0e-6
 NUM_EPOCH = 6000
 
 # Step 1: read in data from the .xls file
