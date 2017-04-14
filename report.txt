@@ -1,0 +1,47 @@
+--------------------------------------------------------------------------------
+Processing file '/Users/Shanaka/Git/tensorflow/hw10/softmax_irises.py'
+ outputting to '/Users/Shanaka/Git/tensorflow/hw10/softmax_irises_upgraded.py'
+--------------------------------------------------------------------------------
+
+'/Users/Shanaka/Git/tensorflow/hw10/softmax_irises.py' Line 49
+--------------------------------------------------------------------------------
+
+Renamed function 'tf.pack' to 'tf.stack'
+
+    Old:     label_number = tf.to_int32(tf.argmax(tf.to_int32(tf.pack([
+                                                              ~~~~~~~   
+    New:     label_number = tf.to_int32(tf.argmax(tf.to_int32(tf.stack([
+                                                              ~~~~~~~~   
+
+'/Users/Shanaka/Git/tensorflow/hw10/softmax_irises.py' Line 76
+--------------------------------------------------------------------------------
+
+Renamed function 'tf.initialize_all_variables' to 'tf.global_variables_initializer'
+
+    Old:     tf.initialize_all_variables().run()
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~         
+    New:     tf.global_variables_initializer().run()
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~         
+
+'/Users/Shanaka/Git/tensorflow/hw10/softmax_irises.py' Line 22
+--------------------------------------------------------------------------------
+
+Added keyword 'logits' to reordered function 'tf.nn.sparse_softmax_cross_entropy_with_logits'
+Added keyword 'labels' to reordered function 'tf.nn.sparse_softmax_cross_entropy_with_logits'
+
+    Old:     return tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(combine_inputs(X), Y))
+                                                                                                         
+    New:     return tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(logits=combine_inputs(X), labels=Y))
+                                                                                  ~~~~~~~                   ~~~~~~~    
+
+'/Users/Shanaka/Git/tensorflow/hw10/softmax_irises.py' Line 57
+--------------------------------------------------------------------------------
+
+Renamed function 'tf.pack' to 'tf.stack'
+
+    Old:     features = tf.transpose(tf.pack([sepal_length, sepal_width, petal_length, petal_width]))
+                                     ~~~~~~~                                                          
+    New:     features = tf.transpose(tf.stack([sepal_length, sepal_width, petal_length, petal_width]))
+                                     ~~~~~~~~                                                          
+
+

@@ -1,0 +1,76 @@
+--------------------------------------------------------------------------------
+Processing file 'vectorized_graph.py'
+ outputting to 'vectorized_graph_upgraded.py'
+--------------------------------------------------------------------------------
+
+'vectorized_graph.py' Line 49
+--------------------------------------------------------------------------------
+
+Renamed function 'tf.merge_all_summaries' to 'tf.summary.merge_all'
+
+    Old:         merged_summaries = tf.merge_all_summaries()
+                                    ~~~~~~~~~~~~~~~~~~~~~~   
+    New:         merged_summaries = tf.summary.merge_all()
+                                    ~~~~~~~~~~~~~~~~~~~~   
+
+'vectorized_graph.py' Line 35
+--------------------------------------------------------------------------------
+
+Renamed function 'tf.sub' to 'tf.subtract'
+
+    Old:             output = tf.sub(d, previous_value, name="output")
+                              ~~~~~~                                   
+    New:             output = tf.subtract(d, previous_value, name="output")
+                              ~~~~~~~~~~~                                   
+
+'vectorized_graph.py' Line 55
+--------------------------------------------------------------------------------
+
+Renamed function 'tf.train.SummaryWriter' to 'tf.summary.FileWriter'
+
+    Old: writer = tf.train.SummaryWriter('./improved_graph', graph)
+                  ~~~~~~~~~~~~~~~~~~~~~~                            
+    New: writer = tf.summary.FileWriter('./improved_graph', graph)
+                  ~~~~~~~~~~~~~~~~~~~~~                            
+
+'vectorized_graph.py' Line 40
+--------------------------------------------------------------------------------
+
+Renamed function 'tf.scalar_summary' to 'tf.summary.scalar'
+
+    Old:         tf.scalar_summary(b'output', output, name="output_summary")  # Creates summary for output node
+                 ~~~~~~~~~~~~~~~~~                                                                              
+    New:         tf.summary.scalar(b'output', output, name="output_summary")  # Creates summary for output node
+                 ~~~~~~~~~~~~~~~~~                                                                              
+
+'vectorized_graph.py' Line 41
+--------------------------------------------------------------------------------
+
+Renamed function 'tf.scalar_summary' to 'tf.summary.scalar'
+
+    Old:         tf.scalar_summary(b'product of inputs', b, name="prod_summary")
+                 ~~~~~~~~~~~~~~~~~                                               
+    New:         tf.summary.scalar(b'product of inputs', b, name="prod_summary")
+                 ~~~~~~~~~~~~~~~~~                                               
+
+'vectorized_graph.py' Line 42
+--------------------------------------------------------------------------------
+
+Renamed function 'tf.scalar_summary' to 'tf.summary.scalar'
+
+    Old:         tf.scalar_summary(b'sum of inputs', c, name="sum_summary")
+                 ~~~~~~~~~~~~~~~~~                                          
+    New:         tf.summary.scalar(b'sum of inputs', c, name="sum_summary")
+                 ~~~~~~~~~~~~~~~~~                                          
+
+'vectorized_graph.py' Line 47
+--------------------------------------------------------------------------------
+
+Renamed function 'tf.initialize_all_variables' to 'tf.global_variables_initializer'
+
+    Old:         init = tf.initialize_all_variables()
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~   
+    New:         init = tf.global_variables_initializer()
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~   
+
+
