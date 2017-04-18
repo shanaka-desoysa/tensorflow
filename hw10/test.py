@@ -1,7 +1,7 @@
 
 import math
 import tensorflow as tf
-
+'''
 #print(sys.version)
 #print(sys.version_info)
 a = tf.placeholder(tf.float32,
@@ -40,25 +40,7 @@ x = sess.run([cosine_similarity], feed_dict=feed_dict)
 print(x)
 
 #print(c)
-
-
 '''
-import numpy as np
+X = [[1,2], [3,4]]
 
-all_xs = []
-all_ys = []
-for i in range(5):
-    # Create fake data for y = 2.x_1 + 5.x_2 + 7
-    #x_1 = i % 10
-    #x_2 = np.random.randint(datapoint_size / 2) % 10
-    #y = actual_W1 * x_1 + actual_W2 * x_2 + actual_b
-    # Create fake data for y = W.x + b where W = [2, 5], b = 7
-    all_xs.append(i+1)
-    all_ys.append(i+5+(i%2))
 
-all_xs = np.array(all_xs)
-all_ys = np.transpose([all_ys])
-
-print(all_xs)
-print(all_ys)
-'''
