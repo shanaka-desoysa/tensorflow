@@ -91,6 +91,8 @@ ENV/
 # Log directory
 log/
 logs/
+log*/
+mnist/
 
 # Data zip files
 *.gz
