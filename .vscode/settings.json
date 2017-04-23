@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "/Users/Shanaka/anaconda/bin/python3.5"
+    "python.pythonPath": "/Users/Shanaka/anaconda/bin/python3.5",
+    "python.linting.pylintArgs": ["--errors-only"]
 }

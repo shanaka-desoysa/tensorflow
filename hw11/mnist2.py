@@ -15,16 +15,16 @@ if sys.version_info[0] >= 3:
 else:
     from urllib import urlretrieve
 
-LOGDIR = 'log_mnist_fixed_25_50_full/'
+LOGDIR = 'log_mnist_fixed_25_50/'
 GITHUB_URL = 'https://raw.githubusercontent.com/mamcgrath/TensorBoard-TF-Dev-Summit-Tutorial/master/'
-GENERATIONS = 2000
+GENERATIONS = 500
 
 ### MNIST EMBEDDINGS ###
 mnist = tf.contrib.learn.datasets.mnist.read_data_sets(
     train_dir=LOGDIR + 'data', one_hot=True)
 ### Get a sprite and labels file for the embedding projector ###
-#urlretrieve(GITHUB_URL + 'labels_1024.tsv', LOGDIR + 'labels_1024.tsv')
-#urlretrieve(GITHUB_URL + 'sprite_1024.png', LOGDIR + 'sprite_1024.png')
+urlretrieve(GITHUB_URL + 'labels_1024.tsv', LOGDIR + 'labels_1024.tsv')
+urlretrieve(GITHUB_URL + 'sprite_1024.png', LOGDIR + 'sprite_1024.png')
 
 # Add convolution layer
 
@@ -42,7 +42,10 @@ def conv_layer(input, size_in, size_out, name="conv"):
         tf.summary.histogram("weights", w)
         tf.summary.histogram("biases", b)
         tf.summary.histogram("activations", act)
-        return tf.nn.max_pool(act, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1], padding="SAME")
+        return tf.nn.max_pool(act,
+                              ksize=[1, 2, 2, 1],
+                              strides=[1, 2, 2, 1],
+                              padding="SAME")
 
 
 # Add fully connected layer
@@ -76,11 +79,10 @@ def mnist_model(learning_rate, use_two_conv, use_two_fc,
     if use_two_conv:
         conv1 = conv_layer(x_image, 1, conv1_features, "conv1")
         conv_out = conv_layer(conv1, conv1_features, conv2_features, "conv2")
-        # missing tf.nn.max_pool here ??
     else:
         conv1 = conv_layer(x_image, 1, conv2_features, "conv")
-        # extra pooling here ??
-        conv_out = tf.nn.max_pool(conv1, ksize=[1, 2, 2, 1],
+        conv_out = tf.nn.max_pool(conv1,
+                                  ksize=[1, 2, 2, 1],
                                   strides=[1, 2, 2, 1], padding="SAME")
 
     flattened = tf.reshape(conv_out, [-1, 7 * 7 * conv2_features])
@@ -163,7 +165,7 @@ def main():
     model_metrics_idx = []
     # You can try adding some more learning rates
     # for learning_rate in [1E-3, 1E-4, 1E-5]:
-    for learning_rate in [.005, 1E-3, 1E-4]:
+    for learning_rate in [0.005, 1E-4, 1E-3]:
         # Include "False" as a value to try different model architectures
         # for use_two_fc in [True, False]:
         for use_two_fc in [True, False]:
@@ -184,14 +186,12 @@ def main():
                     fully_connected_size1=100)
                 total_time = time.time() - start_time
                 model_metrics_idx.append(hparam)
-                model_metrics_result.append(
-                    [total_time, accuracy, xent])
-                print(model_metrics_result)
+                model_metrics_result.append([total_time, accuracy, xent])
+                # print(model_metrics_result)
     df = pd.DataFrame(model_metrics_result,
                       index=model_metrics_idx,
                       columns=model_metrics_cols)
     print(df)
-    df.to_html()
 
 
 if __name__ == '__main__':
