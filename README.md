@@ -5,7 +5,8 @@ TensorFlow playground
 ### Windows
 activate tensorflow
 conda install xlrd
-conda --name tensorflow xlrd
+#conda --name tensorflow xlrd
+conda install pandas
 
 ## Install tflearn
 ### Mac

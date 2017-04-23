@@ -1,4 +1,3 @@
-
 # Copyright 2017 Google, Inc. All Rights Reserved.
 #
 # ==============================================================================
@@ -17,7 +16,7 @@ else:
 
 LOGDIR = 'log_mnist_fixed_25_50/'
 GITHUB_URL = 'https://raw.githubusercontent.com/mamcgrath/TensorBoard-TF-Dev-Summit-Tutorial/master/'
-GENERATIONS = 500
+GENERATIONS = 2000
 
 ### MNIST EMBEDDINGS ###
 mnist = tf.contrib.learn.datasets.mnist.read_data_sets(
@@ -155,8 +154,6 @@ def make_hparam_string(learning_rate, use_two_fc, use_two_conv):
     conv_param = "conv2" if use_two_conv else "conv1"
     fc_param = "fc2" if use_two_fc else "fc1"
     return "lr_%.0E%s%s" % (learning_rate, conv_param, fc_param)
-
-# error Starting run for lr_1E-03conv2fc1_25+50
 
 
 def main():

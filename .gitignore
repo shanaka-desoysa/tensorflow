@@ -93,6 +93,7 @@ log/
 logs/
 log*/
 data/
+mnist/
 
 # Data zip files
 *.gz
