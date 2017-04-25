@@ -1,4 +1,4 @@
 {
-    "python.pythonPath": "/Users/Shanaka/anaconda/bin/python3.5",
+    "python.pythonPath": "C:/Users/desoyss/AppData/Local/Continuum/Anaconda3/envs/tensorflow_gpu/python",
     "python.linting.pylintArgs": ["--errors-only"]
 }

@@ -6,7 +6,7 @@
             "type": "python",
             "request": "launch",
             "stopOnEntry": true,
-            "pythonPath": "/Users/Shanaka/anaconda/bin/python3.5",
+            "pythonPath": "C:/Users/desoyss/AppData/Local/Continuum/Anaconda3/envs/tensorflow_gpu/python",
             "program": "${file}",
             "cwd": "${workspaceRoot}",
             "env": null,
